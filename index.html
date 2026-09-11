@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي الصناديق والجوائز - Yasa Bags</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color:#f4f6f9; margin:0; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; color:#333; }
+        .container { background:#fff; padding:25px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,.1); max-width:500px; width:100%; text-align:center; }
+        .logo { width:140px; height:140px; object-fit:cover; border-radius:50%; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,.15); border:3px solid #800020; }
+        h1 { color:#800020; margin-bottom:10px; font-size:24px; }
+        p { color:#555; font-size:14px; line-height:1.6; }
+        .btn-social { display:inline-block; width:100%; padding:12px; margin:8px 0; border-radius:8px; text-decoration:none; color:white; font-weight:bold; transition:.3s; }
+        .btn-insta { background-color:#E1306C; }
+        .btn-telegram { background-color:#0088cc; }
+        .btn-social:hover { opacity:.9; }
+        .warning-box { background-color:#fff3f3; border:2px dashed #d32f2f; color:#b71c1c; padding:12px; border-radius:10px; margin:15px 0; font-size:13px; font-weight:bold; line-height:1.6; text-align:right; }
+        .timer-box { background:#fff3cd; border:1px solid #ffe69c; color:#856404; padding:10px; border-radius:8px; margin:15px 0; font-weight:bold; }
+        .boxes-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:20px; pointer-events:none; opacity:.5; }
+        .boxes-grid.active { pointer-events:auto; opacity:1; }
+        .box-card { background:#800020; color:white; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:bold; border-radius:10px; cursor:pointer; transition:transform .2s, background .3s; box-shadow:0 4px 8px rgba(0,0,0,.15); }
+        .box-card:hover { transform:scale(1.05); }
+        .result-box { display:none; background:#e8f5e9; border:2px dashed #2e7d32; padding:20px; border-radius:12px; margin-top:20px; }
+        .result-box h2 { color:#2e7d32; margin-top:0; }
+        .notice { background:#ffebee; color:#c62828; padding:10px; border-radius:6px; font-size:13px; margin:15px 0; font-weight:bold; }
+        .contact-btn { display:block; padding:10px; margin:6px 0; border-radius:6px; color:white; text-decoration:none; font-weight:bold; font-size:14px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="logo.png" alt="Yasa Bags Logo" class="logo">
+    <h1>🎁 مسابقة الحظ للحقائب 🎁</h1>
+    <p>للاشتراك، يرجى متابعة حساباتنا أولاً للبدء باللعبة واختيار صندوقك الحظ!</p>
+
+    <a href="https://instagram.com/yasa1h" target="_blank" class="btn-social btn-insta">📷 متابعة حساب الانستغرام (@yasa1h)</a>
+    <a href="https://t.me/yasa35" target="_blank" class="btn-social btn-telegram">📢 الانضمام لقناة التليكرام (@yasa35)</a>
+
+    <div class="warning-box">
+        ⚠️ <b>تنبيه هـام جداً للجميع:</b><br>
+        يتم التدقيق في الانضمام تلقائياً. في حال تم انضمامك للقناة وبعدها غادرت، <b>يسقط حقك نهائياً بالمطالبة بأي جائزة أو خصم</b>. البقاء داخل القناة شرط أساسي لاستلام واستمرار الفعالية!
+    </div>
+
+    <div id="timerContainer" class="timer-box">
+        سيتم فتح الصناديق بعد: <span id="seconds">10</span> ثوانٍ...
+    </div>
+
+    <div id="boxesGrid" class="boxes-grid">
+        <div class="box-card" onclick="openBox(this)">1</div>
+        <div class="box-card" onclick="openBox(this)">2</div>
+        <div class="box-card" onclick="openBox(this)">3</div>
+        <div class="box-card" onclick="openBox(this)">4</div>
+        <div class="box-card" onclick="openBox(this)">5</div>
+        <div class="box-card" onclick="openBox(this)">6</div>
+        <div class="box-card" onclick="openBox(this)">7</div>
+        <div class="box-card" onclick="openBox(this)">8</div>
+        <div class="box-card" onclick="openBox(this)">9</div>
+        <div class="box-card" onclick="openBox(this)">10</div>
+    </div>
+
+    <div id="resultBox" class="result-box">
+        <h2>🎉 مبروك! الجائزة الخاصة بك:</h2>
+        <p id="prizeText" style="font-size:18px;font-weight:bold;color:#155724;"></p>
+        <div class="notice">
+            📌 يرجى أخذ لقطة شاشة (Screenshot) للمتابعة واللايك على آخر بوست بالانستغرام وأرسلها عند الحجز لاستلام الجائزة!
+            <hr style="border:0.5px solid #ffcdd2;margin:8px 0;">
+            ❌ <b>تذكر:</b> المغادرة من قناة التليكرام تلغي الجائزة فوراً، ويسقط حقك في المطالبة بها.
+        </div>
+        <p style="margin-bottom:5px;font-weight:bold;">اضغط للتواصل والحجز عبر:</p>
+        <a href="https://t.me/yasa1h" target="_blank" class="contact-btn btn-telegram">حجز تليكرام (@yasa1h)</a>
+        <a href="https://instagram.com/yasa1h" target="_blank" class="contact-btn btn-insta">انستغرام (@yasa1h)</a>
+        <a href="https://t.me/yasa35" target="_blank" class="contact-btn btn-telegram">قناة التلكرام (@yasa35)</a>
+    </div>
+</div>
+
+<script>
+    const prizes = [
+        { text:"توصيل مجاني عند حجز قطعتين", weight:12.25 },
+        { text:"توصيل مجاني عند حجز 3 قطع", weight:12.25 },
+        { text:"5 حقائب بـ 38 ألف", weight:12.25 },
+        { text:"قطعة مجاناً", weight:0 },
+        { text:"خصم 20%", weight:2 },
+        { text:"اشتري 2 حقائب الثالثة مجاناً", weight:12.25 },
+        { text:"اشتري 5 حقائب السادسة مجاناً", weight:12.25 },
+        { text:"اشتري 3 حقائب الرابعة مجاناً", weight:12.25 },
+        { text:"اشتري 4 حقائب الخامسة مجاناً", weight:12.25 },
+        { text:"اشتري 10 حقائب + 5 حقائب مجاناً", weight:12.25 }
+    ];
+
+    const BLOCK_KEY = "lastBoxPlayTime";
+    const BLOCK_DURATION = 24 * 60 * 60 * 1000;
+
+    function checkBlock() {
+        const lastPlay = localStorage.getItem(BLOCK_KEY);
+        if (lastPlay) {
+            const timePassed = Date.now() - parseInt(lastPlay);
+            if (timePassed < BLOCK_DURATION) {
+                const hoursLeft = Math.ceil((BLOCK_DURATION - timePassed) / (1000 * 60 * 60));
+                document.querySelector('.container').innerHTML = `
+                    <img src="logo.png" alt="Yasa Bags Logo" class="logo">
+                    <h1 style="color:#c62828;">عذراً! ⚠️</h1>
+                    <p style="font-size:16px;font-weight:bold;">لقد قمت بتجربة حظك سابقاً.</p>
+                    <p>يرجى الانتظار <b>${hoursLeft} ساعة</b> متبقية لإعادة المحاولة مرة أخرى.</p>
+                `;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    let timeLeft = 10;
+    const timerElement = document.getElementById('seconds');
+    const timerContainer = document.getElementById('timerContainer');
+    const boxesGrid = document.getElementById('boxesGrid');
+
+    if (!checkBlock()) {
+        const timer = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timerContainer.style.display = 'none';
+                boxesGrid.classList.add('active');
+            }
+        }, 1000);
+    }
+
+    function getRandomPrize() {
+        let totalWeight = prizes.reduce((acc,p) => acc + p.weight, 0);
+        let randomNum = Math.random() * totalWeight;
+        for (let prize of prizes) {
+            if (randomNum < prize.weight) return prize.text;
+            randomNum -= prize.weight;
+        }
+        return prizes[0].text;
+    }
+
+    function openBox(element) {
+        localStorage.setItem(BLOCK_KEY, Date.now().toString());
+        const selectedPrize = getRandomPrize();
+        element.style.background = "#2e7d32";
+        element.style.color = "#ffffff";
+        element.innerText = "🎁";
+
+        document.querySelectorAll('.box-card').forEach(box => box.style.pointerEvents = 'none');
+        document.getElementById('prizeText').innerText = selectedPrize;
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({ behavior:'smooth' });
+    }
+</script>
+</body>
+</html>
