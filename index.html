@@ -63,6 +63,7 @@
             border: none;
         }
         .btn-insta { background-color: #E1306C; }
+        .btn-like { background-color: #c13584; }
         .btn-telegram { background-color: #0088cc; }
         .btn-social.disabled {
             background-color: #ccc !important;
@@ -182,28 +183,34 @@
     <img src="logo.png" alt="Yasa Bags Logo" class="logo">
     
     <h1>🎁 مسابقة الحظ للحقائب 🎁</h1>
-    <p>يرجى إكمال خطوات المتابعة بالترتيب أدناه لفتح الصناديق واختيار جائزتك!</p>
+    <p>يرجى إكمال خطوات المتابعة واللايك بالترتيب أدناه لفتح الصناديق واختيار جائزتك!</p>
 
-    <!-- خطوة الانستغرام -->
+    <!-- 1️⃣ خطوة متابعة الانستغرام -->
     <div id="instaCheckText" class="status-badge">تم التحقق من متابعة الانستغرام ✅</div>
     <a href="https://instagram.com/yasa1h" target="_blank" id="btnInsta" class="btn-social btn-insta" onclick="startInstaStep()">
         1️⃣ اضغط لمتابعة حساب الانستغرام (@yasa1h)
     </a>
 
-    <!-- خطوة التليكرام -->
+    <!-- 2️⃣ خطوة لايك للبوست/الريل -->
+    <div id="likeCheckText" class="status-badge">تم التحقق من إعجاب البوست ✅</div>
+    <a href="https://www.instagram.com/reel/Dc8VhziIQ1x/?stkn=czAzczBkN2xrbG4z" target="_blank" id="btnLike" class="btn-social btn-like disabled" onclick="startLikeStep()">
+        2️⃣ اضغط لوضع لايك ❤️ على بوست المسابقة
+    </a>
+
+    <!-- 3️⃣ خطوة الانضمام للتليكرام -->
     <div id="teleCheckText" class="status-badge">تم التحقق من انضمام القناة ✅</div>
     <a href="https://t.me/yasa35" target="_blank" id="btnTele" class="btn-social btn-telegram disabled" onclick="startTeleStep()">
-        2️⃣ الانضمام لقناة التليكرام (@yasa35)
+        3️⃣ الانضمام لقناة التليكرام (@yasa35)
     </a>
 
     <!-- صندوق العداد التنازلي -->
     <div id="timerContainer" class="timer-box">
-        جاري التحقق من المتابعة... يرجى الانتظار <span id="seconds">10</span> ثوانٍ...
+        جاري التحقق... يرجى الانتظار <span id="seconds">10</span> ثوانٍ...
     </div>
 
     <!-- صندوق النجاح -->
     <div id="successContainer" class="success-box">
-        🎉 تم التحقق من متابعتك بنجاح! يمكنك الآن اختيار صندوقك
+        🎉 تم التحقق من جميع الخطوات بنجاح! يمكنك الآن اختيار صندوقك
     </div>
 
     <div class="warning-box">
@@ -230,7 +237,7 @@
         <p id="prizeText" style="font-size: 18px; font-weight: bold; color: #155724;"></p>
 
         <div class="notice">
-            📌 يرجى أخذ لقطة شاشة (Screenshot) للمتابعة واللايك على آخر بوست بالانستغرام وأرسلها عند الحجز لاستلام الجائزة!
+            📌 يرجى أخذ لقطة شاشة (Screenshot) للمتابعة واللايك على منشور المسابقة وأرسلها عند الحجز لاستلام الجائزة!
             <hr style="border: 0.5px solid #ffcdd2; margin: 8px 0;">
             ❌ <b>تذكر:</b> المغادرة من قناة التليكرام تلغي الجائزة فوراً، ويسقط حقك في المطالبة بها.
         </div>
@@ -282,9 +289,11 @@
     }
 
     let instaDone = false;
+    let likeDone = false;
     let teleDone = false;
     let timerInterval = null;
 
+    // 1️⃣ الخطوة الأولى: الانستغرام
     function startInstaStep() {
         if (instaDone) return;
 
@@ -296,14 +305,33 @@
             document.getElementById('instaCheckText').style.display = 'block';
             btnInsta.innerText = "تم التحقق من الانستغرام ✅";
             
+            // تفعيل زر اللايك
+            const btnLike = document.getElementById('btnLike');
+            btnLike.classList.remove('disabled');
+        });
+    }
+
+    // 2️⃣ الخطوة الثانية: اللايك
+    function startLikeStep() {
+        if (!instaDone || likeDone) return;
+
+        const btnLike = document.getElementById('btnLike');
+        btnLike.classList.add('disabled');
+
+        showTimer(10, () => {
+            likeDone = true;
+            document.getElementById('likeCheckText').style.display = 'block';
+            btnLike.innerText = "تم التحقق من اللايك ✅";
+            
             // تفعيل زر التليكرام
             const btnTele = document.getElementById('btnTele');
             btnTele.classList.remove('disabled');
         });
     }
 
+    // 3️⃣ الخطوة الثالثة: التليكرام
     function startTeleStep() {
-        if (!instaDone || teleDone) return;
+        if (!likeDone || teleDone) return;
 
         const btnTele = document.getElementById('btnTele');
         btnTele.classList.add('disabled');
