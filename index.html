@@ -198,7 +198,7 @@
 
     <!-- صندوق العداد التنازلي -->
     <div id="timerContainer" class="timer-box">
-        جاري التحقق من المتابعة... يرجى الانتظار <span id="seconds">15</span> ثوانٍ...
+        جاري التحقق من المتابعة... يرجى الانتظار <span id="seconds">10</span> ثوانٍ...
     </div>
 
     <!-- صندوق النجاح -->
@@ -291,7 +291,7 @@
         const btnInsta = document.getElementById('btnInsta');
         btnInsta.classList.add('disabled');
         
-        showTimer(15, () => {
+        showTimer(10, () => {
             instaDone = true;
             document.getElementById('instaCheckText').style.display = 'block';
             btnInsta.innerText = "تم التحقق من الانستغرام ✅";
@@ -308,7 +308,7 @@
         const btnTele = document.getElementById('btnTele');
         btnTele.classList.add('disabled');
 
-        showTimer(15, () => {
+        showTimer(10, () => {
             teleDone = true;
             document.getElementById('teleCheckText').style.display = 'block';
             btnTele.innerText = "تم التحقق من التليكرام ✅";
